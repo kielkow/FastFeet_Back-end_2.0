@@ -40,7 +40,7 @@ class UpdateCourierService {
     );
 
     if (courierWithUpdatedEmail && courierWithUpdatedEmail.id !== courier_id) {
-      throw new AppError('This title is already used.');
+      throw new AppError('This email is already used.');
     }
 
     courier.name = name;
