@@ -52,10 +52,6 @@ class FakeCouriersRepository implements ICouriersRepository {
   public async findByEmail(email: string): Promise<Courier | undefined> {
     const findCourier = this.couriers.find(courier => courier.email === email);
 
-    if (!findCourier) {
-      throw new AppError('Courier with this name not found.');
-    }
-
     return findCourier;
   }
 

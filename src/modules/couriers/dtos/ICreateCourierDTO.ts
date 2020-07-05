@@ -1,5 +1,4 @@
-export default interface ICreateUserDTO {
+export default interface ICreateCourierDTO {
   name: string;
   email: string;
-  avatar_id: string;
 }
