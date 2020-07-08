@@ -1,13 +1,18 @@
 import { Router } from 'express';
+import multer from 'multer';
+import uploadConfig from '@config/upload';
 import { celebrate, Segments, Joi } from 'celebrate';
 
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 
 import RecipientsController from '../controllers/RecipientsController';
+import RecipientSignatureController from '../controllers/RecipientSignatureController';
 
 const recipientsRouter = Router();
+const upload = multer(uploadConfig.multer);
 
 const recipientsController = new RecipientsController();
+const recipientSignatureController = new RecipientSignatureController();
 
 recipientsRouter.use(ensureAuthenticated);
 
@@ -66,6 +71,17 @@ recipientsRouter.delete(
     },
   }),
   recipientsController.delete,
+);
+
+recipientsRouter.patch(
+  '/:id/signature',
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().required(),
+    },
+  }),
+  upload.single('signature'),
+  recipientSignatureController.update,
 );
 
 export default recipientsRouter;
