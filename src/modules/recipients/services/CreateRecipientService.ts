@@ -37,7 +37,7 @@ class CreateRecipientService {
   }: IRequest): Promise<Recipient> {
     const checkRecipientexists = await this.recipientsRepository.findByCep(cep);
 
-    if (checkRecipientexists) throw new AppError('E-mail address already used');
+    if (checkRecipientexists) throw new AppError('CEP address already used');
 
     const recipient = await this.recipientsRepository.create({
       name,

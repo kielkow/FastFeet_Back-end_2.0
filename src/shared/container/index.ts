@@ -12,6 +12,9 @@ import UserTokensRepository from '@modules/users/infra/typeorm/repositories/User
 import ICouriersRepository from '@modules/couriers/repositories/ICouriersRepository';
 import CouriersRepository from '@modules/couriers/infra/typeorm/repositories/CouriersRepository';
 
+import IRecipientsRepository from '@modules/recipients/repositories/IRecipientsRepository';
+import RecipientsRepository from '@modules/recipients/infra/typeorm/repositories/RecipientsRepository';
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
@@ -25,4 +28,9 @@ container.registerSingleton<IUserTokensRepository>(
 container.registerSingleton<ICouriersRepository>(
   'CouriersRepository',
   CouriersRepository,
+);
+
+container.registerSingleton<IRecipientsRepository>(
+  'RecipientsRepository',
+  RecipientsRepository,
 );

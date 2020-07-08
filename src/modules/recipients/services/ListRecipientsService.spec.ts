@@ -86,7 +86,7 @@ describe('ListRecipients', () => {
 
     const recipients = await listRecipients.execute({
       page: 1,
-      name: 'John Doe',
+      name: 'Jonh Doe',
     });
 
     expect(recipients).toEqual([recipient1]);

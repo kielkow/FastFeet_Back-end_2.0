@@ -41,7 +41,7 @@ describe('UpdateRecipient', () => {
       cep: '11111112',
     });
 
-    expect(updatedRecipient.name).toBe('John Tre');
+    expect(updatedRecipient.name).toBe('Jonh Tre');
     expect(updatedRecipient.cep).toBe('11111112');
   });
 
