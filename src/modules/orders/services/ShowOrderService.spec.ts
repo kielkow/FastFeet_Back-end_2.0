@@ -11,8 +11,7 @@ import CreateRecipientService from '@modules/recipients/services/CreateRecipient
 import FakeOrdersRepository from '../repositories/fakes/FakeOrdersRepository';
 
 import CreateOrderService from './CreateOrderService';
-import DeleteOrderService from './DeleteOrderService';
-import ListOrdersService from './ListOrdersService';
+import ShowOrderService from './ShowOrderService';
 
 let fakeCacheProvider: FakeCacheProvider;
 let fakeOrdersRepository: FakeOrdersRepository;
@@ -20,12 +19,11 @@ let fakeCouriersRepository: FakeCouriersRepository;
 let fakeRecipientsRepository: FakeRecipientsRepository;
 
 let createOrder: CreateOrderService;
-let deleteOrder: DeleteOrderService;
-let listOrders: ListOrdersService;
+let showOrder: ShowOrderService;
 let createCourier: CreateCourierService;
 let createRecipient: CreateRecipientService;
 
-describe('DeleteOrder', () => {
+describe('ShowRecipient', () => {
   beforeEach(() => {
     fakeCacheProvider = new FakeCacheProvider();
 
@@ -33,13 +31,7 @@ describe('DeleteOrder', () => {
     fakeCouriersRepository = new FakeCouriersRepository();
     fakeRecipientsRepository = new FakeRecipientsRepository();
 
-    deleteOrder = new DeleteOrderService(
-      fakeOrdersRepository,
-      fakeCacheProvider,
-    );
-
-    listOrders = new ListOrdersService(fakeOrdersRepository, fakeCacheProvider);
-
+    showOrder = new ShowOrderService(fakeOrdersRepository, fakeCacheProvider);
     createOrder = new CreateOrderService(
       fakeOrdersRepository,
       fakeCouriersRepository,
@@ -58,7 +50,7 @@ describe('DeleteOrder', () => {
     );
   });
 
-  it('should be able to delete a order', async () => {
+  it('should be able to show a order', async () => {
     const courier = await createCourier.execute({
       name: 'John Doe',
       email: 'johndoe@example.com',
@@ -81,16 +73,15 @@ describe('DeleteOrder', () => {
       start_date: new Date(),
     });
 
-    await deleteOrder.execute({ order_id: order.id });
+    const profile = await showOrder.execute({ order_id: order.id });
 
-    const orders = await listOrders.execute({ page: 1 });
-
-    expect(orders).toEqual([]);
+    expect(profile.recipient.id).toBe(recipient.id);
+    expect(profile.courier.id).toBe(courier.id);
   });
 
-  it('should not be able to delete a non-existing order', async () => {
+  it('should not be able to show a non-existing order', async () => {
     await expect(
-      deleteOrder.execute({
+      showOrder.execute({
         order_id: 'non-existing-order-id',
       }),
     ).rejects.toBeInstanceOf(AppError);

@@ -27,18 +27,21 @@ describe('CreateOrder', () => {
     fakeCacheProvider = new FakeCacheProvider();
 
     fakeOrdersRepository = new FakeOrdersRepository();
+    fakeCouriersRepository = new FakeCouriersRepository();
+    fakeRecipientsRepository = new FakeRecipientsRepository();
+
     createOrder = new CreateOrderService(
       fakeOrdersRepository,
+      fakeCouriersRepository,
+      fakeRecipientsRepository,
       fakeCacheProvider,
     );
 
-    fakeCouriersRepository = new FakeCouriersRepository();
     createCourier = new CreateCourierService(
       fakeCouriersRepository,
       fakeCacheProvider,
     );
 
-    fakeRecipientsRepository = new FakeRecipientsRepository();
     createRecipient = new CreateRecipientService(
       fakeRecipientsRepository,
       fakeCacheProvider,

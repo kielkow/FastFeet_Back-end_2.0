@@ -11,8 +11,7 @@ import CreateRecipientService from '@modules/recipients/services/CreateRecipient
 import FakeOrdersRepository from '../repositories/fakes/FakeOrdersRepository';
 
 import CreateOrderService from './CreateOrderService';
-import DeleteOrderService from './DeleteOrderService';
-import ListOrdersService from './ListOrdersService';
+import UpdateOrderService from './UpdateOrderService';
 
 let fakeCacheProvider: FakeCacheProvider;
 let fakeOrdersRepository: FakeOrdersRepository;
@@ -20,12 +19,11 @@ let fakeCouriersRepository: FakeCouriersRepository;
 let fakeRecipientsRepository: FakeRecipientsRepository;
 
 let createOrder: CreateOrderService;
-let deleteOrder: DeleteOrderService;
-let listOrders: ListOrdersService;
+let updateOrder: UpdateOrderService;
 let createCourier: CreateCourierService;
 let createRecipient: CreateRecipientService;
 
-describe('DeleteOrder', () => {
+describe('UpdateOrder', () => {
   beforeEach(() => {
     fakeCacheProvider = new FakeCacheProvider();
 
@@ -33,13 +31,12 @@ describe('DeleteOrder', () => {
     fakeCouriersRepository = new FakeCouriersRepository();
     fakeRecipientsRepository = new FakeRecipientsRepository();
 
-    deleteOrder = new DeleteOrderService(
+    updateOrder = new UpdateOrderService(
       fakeOrdersRepository,
+      fakeCouriersRepository,
+      fakeRecipientsRepository,
       fakeCacheProvider,
     );
-
-    listOrders = new ListOrdersService(fakeOrdersRepository, fakeCacheProvider);
-
     createOrder = new CreateOrderService(
       fakeOrdersRepository,
       fakeCouriersRepository,
@@ -58,13 +55,18 @@ describe('DeleteOrder', () => {
     );
   });
 
-  it('should be able to delete a order', async () => {
-    const courier = await createCourier.execute({
+  it('should be able to update the order', async () => {
+    const courier1 = await createCourier.execute({
       name: 'John Doe',
       email: 'johndoe@example.com',
     });
 
-    const recipient = await createRecipient.execute({
+    const courier2 = await createCourier.execute({
+      name: 'John Tre',
+      email: 'johntre@example.com',
+    });
+
+    const recipient1 = await createRecipient.execute({
       name: 'Jonh Doe',
       street: 'Street',
       number: '123',
@@ -74,24 +76,43 @@ describe('DeleteOrder', () => {
       cep: '11111111',
     });
 
+    const recipient2 = await createRecipient.execute({
+      name: 'Jonh Tre',
+      street: 'Street',
+      number: '123',
+      details: 'Details',
+      state: 'State',
+      city: 'City',
+      cep: '11111112',
+    });
+
     const order = await createOrder.execute({
-      recipient_id: recipient.id,
-      courier_id: courier.id,
+      recipient_id: recipient1.id,
+      courier_id: courier1.id,
       product: 'Product',
       start_date: new Date(),
     });
 
-    await deleteOrder.execute({ order_id: order.id });
+    const updatedOrder = await updateOrder.execute({
+      order_id: order.id,
+      recipient_id: recipient2.id,
+      courier_id: courier2.id,
+      product: 'Product Updated',
+      start_date: new Date(),
+    });
 
-    const orders = await listOrders.execute({ page: 1 });
-
-    expect(orders).toEqual([]);
+    expect(updatedOrder.recipient.id).toBe(recipient2.id);
+    expect(updatedOrder.courier.id).toBe(courier2.id);
   });
 
-  it('should not be able to delete a non-existing order', async () => {
+  it('should not be able to update non-existing order', async () => {
     await expect(
-      deleteOrder.execute({
+      updateOrder.execute({
         order_id: 'non-existing-order-id',
+        recipient_id: 'recipient-id',
+        courier_id: 'courier-id',
+        product: 'Product Updated',
+        start_date: new Date(),
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

@@ -1,24 +1,26 @@
 import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
 
 import FakeCouriersRepository from '@modules/couriers/repositories/fakes/FakeCouriersRepository';
-import CreateCourierService from '@modules/couriers/services/CreateCourierService';
-
 import FakeRecipientsRepository from '@modules/recipients/repositories/fakes/FakeRecipientsRepository';
+
+import CreateCourierService from '@modules/couriers/services/CreateCourierService';
 import CreateRecipientService from '@modules/recipients/services/CreateRecipientService';
 
 import FakeOrdersRepository from '../repositories/fakes/FakeOrdersRepository';
+
 import CreateOrderService from './CreateOrderService';
 import ListOrdersService from './ListOrdersService';
 
 let fakeCacheProvider: FakeCacheProvider;
+
 let fakeOrdersRepository: FakeOrdersRepository;
+let fakeRecipientsRepository: FakeRecipientsRepository;
+let fakeCouriersRepository: FakeCouriersRepository;
+
 let createOrder: CreateOrderService;
 let listOrders: ListOrdersService;
 
-let fakeCouriersRepository: FakeCouriersRepository;
 let createCourier: CreateCourierService;
-
-let fakeRecipientsRepository: FakeRecipientsRepository;
 let createRecipient: CreateRecipientService;
 
 describe('ListOrders', () => {
@@ -26,19 +28,22 @@ describe('ListOrders', () => {
     fakeCacheProvider = new FakeCacheProvider();
 
     fakeOrdersRepository = new FakeOrdersRepository();
+    fakeCouriersRepository = new FakeCouriersRepository();
+    fakeRecipientsRepository = new FakeRecipientsRepository();
+
     listOrders = new ListOrdersService(fakeOrdersRepository, fakeCacheProvider);
     createOrder = new CreateOrderService(
       fakeOrdersRepository,
+      fakeCouriersRepository,
+      fakeRecipientsRepository,
       fakeCacheProvider,
     );
 
-    fakeCouriersRepository = new FakeCouriersRepository();
     createCourier = new CreateCourierService(
       fakeCouriersRepository,
       fakeCacheProvider,
     );
 
-    fakeRecipientsRepository = new FakeRecipientsRepository();
     createRecipient = new CreateRecipientService(
       fakeRecipientsRepository,
       fakeCacheProvider,

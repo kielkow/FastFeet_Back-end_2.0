@@ -29,14 +29,6 @@ class Order {
 
   @Column()
   @Exclude()
-  signature_id: string;
-
-  @OneToOne(() => Recipient, recipient => recipient.signature, { eager: true })
-  @JoinColumn({ name: 'signature_id' })
-  signature: Recipient;
-
-  @Column()
-  @Exclude()
   courier_id: string;
 
   @ManyToOne(() => Courier, courier => courier, { eager: true })
