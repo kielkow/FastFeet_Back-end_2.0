@@ -78,7 +78,7 @@ describe('DeleteOrder', () => {
       recipient_id: recipient.id,
       courier_id: courier.id,
       product: 'Product',
-      start_date: new Date(),
+      start_date: new Date(new Date().setHours(10, 0, 0)),
     });
 
     await deleteOrder.execute({ order_id: order.id });

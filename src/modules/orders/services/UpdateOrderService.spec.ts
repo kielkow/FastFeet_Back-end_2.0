@@ -90,7 +90,7 @@ describe('UpdateOrder', () => {
       recipient_id: recipient1.id,
       courier_id: courier1.id,
       product: 'Product',
-      start_date: new Date(),
+      start_date: new Date(new Date().setHours(10, 0, 0)),
     });
 
     const updatedOrder = await updateOrder.execute({
@@ -98,7 +98,7 @@ describe('UpdateOrder', () => {
       recipient_id: recipient2.id,
       courier_id: courier2.id,
       product: 'Product Updated',
-      start_date: new Date(),
+      start_date: new Date(new Date().setHours(10, 0, 0)),
     });
 
     expect(updatedOrder.recipient.id).toBe(recipient2.id);
@@ -112,7 +112,7 @@ describe('UpdateOrder', () => {
         recipient_id: 'recipient-id',
         courier_id: 'courier-id',
         product: 'Product Updated',
-        start_date: new Date(),
+        start_date: new Date(new Date().setHours(10, 0, 0)),
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

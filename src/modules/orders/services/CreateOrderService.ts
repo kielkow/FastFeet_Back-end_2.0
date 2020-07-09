@@ -1,5 +1,7 @@
 import { injectable, inject } from 'tsyringe';
 
+import { startOfHour, getHours } from 'date-fns';
+
 import AppError from '@shared/errors/AppError';
 
 import IOrdersRepository from '@modules/orders/repositories/IOrdersRepository';
@@ -44,6 +46,20 @@ class CreateOrderService {
 
     const recipient = await this.recipientsRepository.findById(recipient_id);
     if (!recipient) throw new AppError('Recipient not found.');
+
+    const hourStart = getHours(startOfHour(start_date));
+
+    if (hourStart < 8 || hourStart >= 18) {
+      throw new AppError('Date not permitted');
+    }
+
+    const similiarOrders = await this.ordersRepository.findOrdersOpen(
+      start_date,
+    );
+
+    if (similiarOrders >= 5) {
+      throw new AppError('Not possible open more than 5 orders p/ day');
+    }
 
     const order = await this.ordersRepository.create({
       recipient,

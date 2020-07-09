@@ -6,6 +6,7 @@ export default interface IOrdersRepository {
   findById(id: string): Promise<Order | undefined>;
   findByCourierId(courier_id: string): Promise<Order | undefined>;
   findByRecipientId(recipient_id: string): Promise<Order | undefined>;
+  findOrdersOpen(today: Date): Promise<number>;
   create(data: ICreateOrderDTO): Promise<Order>;
   save(order: Order): Promise<Order>;
   delete(id: string): Promise<void | undefined>;

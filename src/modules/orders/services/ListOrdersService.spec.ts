@@ -70,21 +70,21 @@ describe('ListOrders', () => {
       recipient_id: recipient.id,
       courier_id: courier.id,
       product: 'Product1',
-      start_date: new Date(),
+      start_date: new Date(new Date().setHours(10, 0, 0)),
     });
 
     const order2 = await createOrder.execute({
       recipient_id: recipient.id,
       courier_id: courier.id,
       product: 'Product2',
-      start_date: new Date(),
+      start_date: new Date(new Date().setHours(10, 0, 0)),
     });
 
     const order3 = await createOrder.execute({
       recipient_id: recipient.id,
       courier_id: courier.id,
       product: 'Product3',
-      start_date: new Date(),
+      start_date: new Date(new Date().setHours(10, 0, 0)),
     });
 
     const orders = await listOrders.execute({ page: 1 });
@@ -112,21 +112,21 @@ describe('ListOrders', () => {
       recipient_id: recipient.id,
       courier_id: courier.id,
       product: 'Product1',
-      start_date: new Date(),
+      start_date: new Date(new Date().setHours(10, 0, 0)),
     });
 
     await createOrder.execute({
       recipient_id: recipient.id,
       courier_id: courier.id,
       product: 'Product2',
-      start_date: new Date(),
+      start_date: new Date(new Date().setHours(10, 0, 0)),
     });
 
     await createOrder.execute({
       recipient_id: recipient.id,
       courier_id: courier.id,
       product: 'Product3',
-      start_date: new Date(),
+      start_date: new Date(new Date().setHours(10, 0, 0)),
     });
 
     const orders = await listOrders.execute({

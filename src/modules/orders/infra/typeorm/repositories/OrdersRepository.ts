@@ -1,4 +1,6 @@
-import { getRepository, Repository, Like } from 'typeorm';
+import { getRepository, Repository, Like, Between } from 'typeorm';
+
+import { startOfDay, endOfDay } from 'date-fns';
 
 import IOrdersRepository from '@modules/orders/repositories/IOrdersRepository';
 import ICreateOrderDTO from '@modules/orders/dtos/ICreateOrderDTO';
@@ -60,6 +62,16 @@ class OrdersRepository implements IOrdersRepository {
       .getOne();
 
     return recipient;
+  }
+
+  public async findOrdersOpen(today: Date): Promise<number> {
+    const orders = await this.ormRepository.findAndCount({
+      where: {
+        start_date: Between(startOfDay(today), endOfDay(today)),
+      },
+    });
+
+    return orders[1];
   }
 
   public async create(orderData: ICreateOrderDTO): Promise<Order> {

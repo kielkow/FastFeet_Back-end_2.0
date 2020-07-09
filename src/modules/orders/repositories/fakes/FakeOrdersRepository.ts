@@ -1,5 +1,7 @@
 import { uuid } from 'uuidv4';
 
+import { startOfDay, endOfDay, isWithinInterval } from 'date-fns';
+
 import IOrdersRepository from '@modules/orders/repositories/IOrdersRepository';
 
 import ICreateOrderDTO from '@modules/orders/dtos/ICreateOrderDTO';
@@ -55,6 +57,17 @@ class FakeOrdersRepository implements IOrdersRepository {
     );
 
     return findOrder;
+  }
+
+  public async findOrdersOpen(today: Date): Promise<number> {
+    const orders = this.orders.filter(() =>
+      isWithinInterval(today, {
+        start: startOfDay(today),
+        end: endOfDay(today),
+      }),
+    );
+
+    return orders.length;
   }
 
   public async create(orderData: ICreateOrderDTO): Promise<Order> {
