@@ -26,8 +26,23 @@ export default class CreateOrders1594267760921 implements MigrationInterface {
             type: 'varchar',
           },
           {
+            name: 'status',
+            type: 'varchar',
+            default: "'pending'",
+          },
+          {
             name: 'start_date',
             type: 'timestamp with time zone',
+          },
+          {
+            name: 'end_date',
+            type: 'timestamp with time zone',
+            isNullable: true,
+          },
+          {
+            name: 'canceled_at',
+            type: 'timestamp',
+            isNullable: true,
           },
           {
             name: 'created_at',

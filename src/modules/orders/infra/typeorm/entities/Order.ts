@@ -38,8 +38,17 @@ class Order {
   @Column()
   product: string;
 
+  @Column()
+  status: 'pending' | 'delivered' | 'canceled';
+
   @Column('timestamp with time zone')
   start_date: Date;
+
+  @Column('timestamp with time zone')
+  end_date: Date;
+
+  @Column()
+  canceled_at: Date;
 
   @CreateDateColumn()
   created_at: Date;
