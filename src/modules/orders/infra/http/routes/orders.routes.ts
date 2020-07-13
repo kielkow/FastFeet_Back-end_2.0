@@ -54,16 +54,6 @@ ordersRouter.put(
   ordersController.update,
 );
 
-ordersRouter.patch(
-  '/:id/delivery',
-  celebrate({
-    [Segments.PARAMS]: {
-      id: Joi.string().required(),
-    },
-  }),
-  ordersStatusController.update,
-);
-
 ordersRouter.delete(
   '/:id',
   celebrate({
@@ -72,6 +62,26 @@ ordersRouter.delete(
     },
   }),
   ordersController.delete,
+);
+
+ordersRouter.patch(
+  '/:id/delivery',
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().required(),
+    },
+  }),
+  ordersStatusController.delivery,
+);
+
+ordersRouter.patch(
+  '/:id/cancel',
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().required(),
+    },
+  }),
+  ordersStatusController.cancel,
 );
 
 export default ordersRouter;

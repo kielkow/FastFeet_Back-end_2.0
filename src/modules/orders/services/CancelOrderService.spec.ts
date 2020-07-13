@@ -11,7 +11,7 @@ import CreateRecipientService from '@modules/recipients/services/CreateRecipient
 import FakeOrdersRepository from '../repositories/fakes/FakeOrdersRepository';
 
 import CreateOrderService from './CreateOrderService';
-import DeliveryOrderService from './DeliveryOrderService';
+import CancelOrderService from './CancelOrderService';
 
 let fakeCacheProvider: FakeCacheProvider;
 let fakeOrdersRepository: FakeOrdersRepository;
@@ -19,11 +19,11 @@ let fakeCouriersRepository: FakeCouriersRepository;
 let fakeRecipientsRepository: FakeRecipientsRepository;
 
 let createOrder: CreateOrderService;
-let deliveryOrder: DeliveryOrderService;
+let cancelOrder: CancelOrderService;
 let createCourier: CreateCourierService;
 let createRecipient: CreateRecipientService;
 
-describe('DeliveryOrder', () => {
+describe('CancelOrder', () => {
   beforeEach(() => {
     fakeCacheProvider = new FakeCacheProvider();
 
@@ -31,7 +31,7 @@ describe('DeliveryOrder', () => {
     fakeCouriersRepository = new FakeCouriersRepository();
     fakeRecipientsRepository = new FakeRecipientsRepository();
 
-    deliveryOrder = new DeliveryOrderService(
+    cancelOrder = new CancelOrderService(
       fakeOrdersRepository,
       fakeCouriersRepository,
       fakeRecipientsRepository,
@@ -78,17 +78,18 @@ describe('DeliveryOrder', () => {
       start_date: new Date(new Date().setHours(10, 0, 0)),
     });
 
-    const deliveredOrder = await deliveryOrder.execute({
+    const canceledOrder = await cancelOrder.execute({
       order_id: order.id,
     });
 
-    expect(deliveredOrder.end_date).not.toBeNull();
-    expect(deliveredOrder.status).toBe('delivered');
+    expect(canceledOrder.end_date).not.toBeNull();
+    expect(canceledOrder.canceled_at).not.toBeNull();
+    expect(canceledOrder.status).toBe('canceled');
   });
 
   it('should not be able to update non-existing order', async () => {
     await expect(
-      deliveryOrder.execute({
+      cancelOrder.execute({
         order_id: 'non-existing-order-id',
       }),
     ).rejects.toBeInstanceOf(AppError);

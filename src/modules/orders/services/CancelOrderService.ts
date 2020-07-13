@@ -15,7 +15,7 @@ interface IRequest {
 }
 
 @injectable()
-class DeliveryOrderService {
+class UpdateOrderService {
   constructor(
     @inject('OrdersRepository')
     private ordersRepository: IOrdersRepository,
@@ -34,8 +34,11 @@ class DeliveryOrderService {
     const order = await this.ordersRepository.findById(order_id);
     if (!order) throw new AppError('Order not found.');
 
-    order.end_date = new Date();
-    order.status = 'delivered';
+    const cancelDate = new Date();
+
+    order.end_date = cancelDate;
+    order.canceled_at = cancelDate;
+    order.status = 'canceled';
 
     await this.cacheProvider.invalidatePrefix(`order-${order.id}-show`);
 
@@ -43,4 +46,4 @@ class DeliveryOrderService {
   }
 }
 
-export default DeliveryOrderService;
+export default UpdateOrderService;
