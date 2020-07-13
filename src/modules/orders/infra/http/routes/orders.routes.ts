@@ -5,11 +5,13 @@ import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAut
 
 import OrdersController from '../controllers/OrdersController';
 import OrdersStatusController from '../controllers/OrdersStatusController';
+import OrdersByCourierController from '../controllers/OrdersByCourierController';
 
 const ordersRouter = Router();
 
 const ordersController = new OrdersController();
 const ordersStatusController = new OrdersStatusController();
+const ordersByCourierController = new OrdersByCourierController();
 
 ordersRouter.use(ensureAuthenticated);
 
@@ -82,6 +84,16 @@ ordersRouter.patch(
     },
   }),
   ordersStatusController.cancel,
+);
+
+ordersRouter.get(
+  '/courier/:id',
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().required(),
+    },
+  }),
+  ordersByCourierController.index,
 );
 
 export default ordersRouter;

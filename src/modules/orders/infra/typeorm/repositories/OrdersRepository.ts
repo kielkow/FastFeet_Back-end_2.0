@@ -42,26 +42,32 @@ class OrdersRepository implements IOrdersRepository {
     return order;
   }
 
-  public async findByCourierId(courier_id: string): Promise<Order | undefined> {
-    const order = await this.ormRepository
+  public async findByCourierId(
+    page: number,
+    courier_id: string,
+  ): Promise<Order[] | undefined> {
+    const orders = await this.ormRepository
       .createQueryBuilder('order')
       .leftJoinAndSelect('order.courier', 'courier')
+      .leftJoinAndSelect('order.recipient', 'recipient')
       .where('courier.id = :id', { id: courier_id })
-      .getOne();
+      .skip((page - 1) * 10)
+      .take(10)
+      .getMany();
 
-    return order;
+    return orders;
   }
 
   public async findByRecipientId(
     recipient_id: string,
-  ): Promise<Order | undefined> {
-    const recipient = await this.ormRepository
+  ): Promise<Order[] | undefined> {
+    const orders = await this.ormRepository
       .createQueryBuilder('order')
       .leftJoinAndSelect('order.recipient', 'recipient')
       .where('recipient.id = :id', { id: recipient_id })
-      .getOne();
+      .getMany();
 
-    return recipient;
+    return orders;
   }
 
   public async findOrdersOpen(today: Date): Promise<number> {

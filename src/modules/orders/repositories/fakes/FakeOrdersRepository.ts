@@ -41,18 +41,24 @@ class FakeOrdersRepository implements IOrdersRepository {
     return findOrder;
   }
 
-  public async findByCourierId(courier_id: string): Promise<Order | undefined> {
-    const findCourier = this.orders.find(
-      order => order.courier.id === courier_id,
-    );
+  public async findByCourierId(
+    page: number,
+    courier_id: string,
+  ): Promise<Order[] | undefined> {
+    const skip = (page - 1) * 10;
+    const take = skip + 10;
 
-    return findCourier;
+    const findOrdersByCourier = this.orders
+      .filter(order => order.courier.id === courier_id)
+      .slice(skip, take);
+
+    return findOrdersByCourier;
   }
 
   public async findByRecipientId(
     recipient_id: string,
-  ): Promise<Order | undefined> {
-    const findOrder = this.orders.find(
+  ): Promise<Order[] | undefined> {
+    const findOrder = this.orders.filter(
       order => order.recipient.id === recipient_id,
     );
 
