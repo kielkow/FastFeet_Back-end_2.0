@@ -4,10 +4,12 @@ import { celebrate, Segments, Joi } from 'celebrate';
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 
 import OrdersController from '../controllers/OrdersController';
+import OrdersStatusController from '../controllers/OrdersStatusController';
 
 const ordersRouter = Router();
 
 const ordersController = new OrdersController();
+const ordersStatusController = new OrdersStatusController();
 
 ordersRouter.use(ensureAuthenticated);
 
@@ -50,6 +52,16 @@ ordersRouter.put(
     },
   }),
   ordersController.update,
+);
+
+ordersRouter.patch(
+  '/:id/delivery',
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().required(),
+    },
+  }),
+  ordersStatusController.update,
 );
 
 ordersRouter.delete(
