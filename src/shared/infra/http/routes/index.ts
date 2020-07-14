@@ -8,6 +8,7 @@ import profileRouter from '@modules/users/infra/http/routes/profile.routes';
 import couriersRouter from '@modules/couriers/infra/http/routes/couriers.routes';
 import recipientsRouter from '@modules/recipients/infra/http/routes/recipients.routes';
 import ordersRouter from '@modules/orders/infra/http/routes/orders.routes';
+import ordersProblemsRouter from '@modules/orders_problems/infra/http/routes/orders_problems.routes';
 
 const routes = Router();
 
@@ -19,5 +20,6 @@ routes.use('/profile', profileRouter);
 routes.use('/couriers', couriersRouter);
 routes.use('/recipients', recipientsRouter);
 routes.use('/orders', ordersRouter);
+routes.use('/orders_problems', ordersProblemsRouter);
 
 export default routes;

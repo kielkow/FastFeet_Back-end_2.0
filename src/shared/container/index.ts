@@ -18,6 +18,9 @@ import RecipientsRepository from '@modules/recipients/infra/typeorm/repositories
 import IOrdersRepository from '@modules/orders/repositories/IOrdersRepository';
 import OrdersRepository from '@modules/orders/infra/typeorm/repositories/OrdersRepository';
 
+import IOrdersProblemsRepository from '@modules/orders_problems/repositories/IOrdersProblemsRepository';
+import OrdersProblemsRepository from '@modules/orders_problems/infra/typeorm/repositories/OrdersProblemsRepository';
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
@@ -41,4 +44,9 @@ container.registerSingleton<IRecipientsRepository>(
 container.registerSingleton<IOrdersRepository>(
   'OrdersRepository',
   OrdersRepository,
+);
+
+container.registerSingleton<IOrdersProblemsRepository>(
+  'OrdersProblemsRepository',
+  OrdersProblemsRepository,
 );
