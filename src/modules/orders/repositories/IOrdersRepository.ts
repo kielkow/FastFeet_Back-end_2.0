@@ -6,6 +6,7 @@ export default interface IOrdersRepository {
   findById(id: string): Promise<Order | undefined>;
   findByCourierId(
     page: number,
+    end_date: boolean,
     courier_id: string,
   ): Promise<Order[] | undefined>;
   findByRecipientId(recipient_id: string): Promise<Order[] | undefined>;

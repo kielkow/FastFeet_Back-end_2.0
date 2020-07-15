@@ -9,6 +9,7 @@ import ListOrdersByCourierService from '@modules/orders/services/ListOrdersByCou
 export default class OrdersController {
   public async index(request: Request, response: Response): Promise<Response> {
     const page = request.query.page ? Number(request.query.page) : 1;
+    const end_date = !!request.query.end_date;
     const courier_id = request.params.id;
 
     const listOrdersByCourierService = container.resolve(
@@ -17,6 +18,7 @@ export default class OrdersController {
 
     const orders = await listOrdersByCourierService.execute({
       page,
+      end_date,
       courier_id,
     });
 

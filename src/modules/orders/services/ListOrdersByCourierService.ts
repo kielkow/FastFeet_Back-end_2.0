@@ -8,6 +8,7 @@ import Order from '../infra/typeorm/entities/Order';
 
 interface IRequest {
   page: number;
+  end_date: boolean;
   courier_id: string;
 }
 
@@ -23,10 +24,12 @@ class ListOrdersByCouierService {
 
   public async execute({
     page = 1,
+    end_date = false,
     courier_id,
   }: IRequest): Promise<Order[] | undefined> {
     const orders = await this.ordersRepository.findByCourierId(
       page,
+      end_date,
       courier_id,
     );
 

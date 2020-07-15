@@ -43,8 +43,20 @@ class FakeOrdersRepository implements IOrdersRepository {
 
   public async findByCourierId(
     page: number,
+    end_date: boolean,
     courier_id: string,
   ): Promise<Order[] | undefined> {
+    if (end_date) {
+      const skip = (page - 1) * 10;
+      const take = skip + 10;
+
+      const findOrdersByCourier = this.orders
+        .filter(order => order.courier.id === courier_id && order.end_date)
+        .slice(skip, take);
+
+      return findOrdersByCourier;
+    }
+
     const skip = (page - 1) * 10;
     const take = skip + 10;
 

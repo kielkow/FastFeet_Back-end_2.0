@@ -44,8 +44,24 @@ class OrdersRepository implements IOrdersRepository {
 
   public async findByCourierId(
     page: number,
+    end_date: boolean,
     courier_id: string,
   ): Promise<Order[] | undefined> {
+    if (end_date) {
+      const orders = await this.ormRepository
+        .createQueryBuilder('order')
+        .leftJoinAndSelect('order.courier', 'courier')
+        .leftJoinAndSelect('order.recipient', 'recipient')
+        .where('courier.id = :id', { id: courier_id })
+        .skip((page - 1) * 10)
+        .take(10)
+        .getMany();
+
+      const ordersWithEnddate = orders.filter(order => order.end_date);
+
+      return ordersWithEnddate;
+    }
+
     const orders = await this.ormRepository
       .createQueryBuilder('order')
       .leftJoinAndSelect('order.courier', 'courier')

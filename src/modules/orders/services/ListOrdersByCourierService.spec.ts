@@ -10,6 +10,7 @@ import FakeOrdersRepository from '../repositories/fakes/FakeOrdersRepository';
 
 import CreateOrderService from './CreateOrderService';
 import ListOrdersByCourierService from './ListOrdersByCourierService';
+import DeliveryOrderService from './DeliveryOrderService';
 
 let fakeCacheProvider: FakeCacheProvider;
 
@@ -19,6 +20,7 @@ let fakeCouriersRepository: FakeCouriersRepository;
 
 let createOrder: CreateOrderService;
 let listOrdersByCouier: ListOrdersByCourierService;
+let deliveryOrder: DeliveryOrderService;
 
 let createCourier: CreateCourierService;
 let createRecipient: CreateRecipientService;
@@ -37,6 +39,13 @@ describe('ListOrdersByCouier', () => {
     );
 
     createOrder = new CreateOrderService(
+      fakeOrdersRepository,
+      fakeCouriersRepository,
+      fakeRecipientsRepository,
+      fakeCacheProvider,
+    );
+
+    deliveryOrder = new DeliveryOrderService(
       fakeOrdersRepository,
       fakeCouriersRepository,
       fakeRecipientsRepository,
@@ -93,9 +102,60 @@ describe('ListOrdersByCouier', () => {
 
     const orders = await listOrdersByCouier.execute({
       page: 1,
+      end_date: false,
       courier_id: courier.id,
     });
 
     expect(orders).toEqual([order1, order2, order3]);
+  });
+
+  it('should be able to list orders by courier and with end_date', async () => {
+    const courier = await createCourier.execute({
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+    });
+
+    const recipient = await createRecipient.execute({
+      name: 'Jonh Doe',
+      street: 'Street',
+      number: '123',
+      details: 'Details',
+      state: 'State',
+      city: 'City',
+      cep: '11111111',
+    });
+
+    const order1 = await createOrder.execute({
+      recipient_id: recipient.id,
+      courier_id: courier.id,
+      product: 'Product1',
+      start_date: new Date(new Date().setHours(10, 0, 0)),
+    });
+
+    await createOrder.execute({
+      recipient_id: recipient.id,
+      courier_id: courier.id,
+      product: 'Product2',
+      start_date: new Date(new Date().setHours(10, 0, 0)),
+    });
+
+    await createOrder.execute({
+      recipient_id: recipient.id,
+      courier_id: courier.id,
+      product: 'Product3',
+      start_date: new Date(new Date().setHours(10, 0, 0)),
+    });
+
+    await deliveryOrder.execute({
+      order_id: order1.id,
+    });
+
+    const orders = await listOrdersByCouier.execute({
+      page: 1,
+      end_date: true,
+      courier_id: courier.id,
+    });
+
+    expect(orders).toEqual([order1]);
   });
 });
