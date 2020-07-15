@@ -53,6 +53,7 @@ class OrdersRepository implements IOrdersRepository {
         .leftJoinAndSelect('order.courier', 'courier')
         .leftJoinAndSelect('order.recipient', 'recipient')
         .where('courier.id = :id', { id: courier_id })
+        .orderBy('order.end_date', 'ASC')
         .skip((page - 1) * 10)
         .take(10)
         .getMany();
