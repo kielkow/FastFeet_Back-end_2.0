@@ -1,7 +1,3 @@
-<h1 align="center">
-  <img alt="Logo" src="https://res.cloudinary.com/eliasgcf/image/upload/v1588625369/FastFeet/logo_iw1v9f.svg" width="200px">
-</h1>
-
 <h3 align="center">
   Express Application for FastFeet project
 </h3>
@@ -9,16 +5,16 @@
 <p align="center">The best way to traffic your orders!</p>
 
 <p align="center">
-  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/kielkow/FastFeet-2.0-Back-end?color=%23FF9000">
+  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/kielkow/FastFeet_Back-end_2.0?color=%23FF9000">
 
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/kielkow/FastFeet-2.0-Back-end?color=%23FF9000">
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/kielkow/FastFeet_Back-end_2.0?color=%23FF9000">
 
-  <a href="https://github.com/kielkow/FastFeet-2.0-Back-end/commits/master">
-    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/kielkow/FastFeet-2.0-Back-end?color=%23FF9000">
+  <a href="https://github.com/kielkow/FastFeet_Back-end_2.0/commits/master">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/kielkow/FastFeet_Back-end_2.0?color=%23FF9000">
   </a>
 
-  <a href="https://github.com/kielkow/FastFeet-2.0-Back-end/issues">
-    <img alt="Repository issues" src="https://img.shields.io/github/issues/kielkow/FastFeet-2.0-Back-end?color=%23FF9000">
+  <a href="https://github.com/kielkow/FastFeet_Back-end_2.0/issues">
+    <img alt="Repository issues" src="https://img.shields.io/github/issues/kielkow/FastFeet_Back-end_2.0?color=%23FF9000">
   </a>
 
   <img alt="GitHub" src="https://img.shields.io/github/license/EliasGcf/gobarber-api?color=%23FF9000">
@@ -81,7 +77,7 @@ Import the `Insomnia.json` on Insomnia App or click on [Run in Insomnia](#insomn
 **Clone the project and access the folder**
 
 ```bash
-$ git clone https://github.com/kielkow/FastFeet-2.0-Back-end.git && cd FastFeet-2.0-Back-end
+$ git clone https://github.com/kielkow/FastFeet_Back-end_2.0.git && cd FastFeet_Back-end_2.0
 ```
 
 **Follow the steps below**
@@ -128,14 +124,14 @@ $ yarn dev:server
 # Fork using GitHub official command line
 # If you don't have the GitHub CLI, use the web site to do that.
 
-$ gh repo fork kielkow/FastFeet-2.0-Back-end
+$ gh repo fork kielkow/FastFeet_Back-end_2.0
 ```
 
 **Follow the steps below**
 
 ```bash
 # Clone your fork
-$ git clone your-fork-url && cd FastFeet-2.0-Back-end
+$ git clone your-fork-url && cd FastFeet_Back-end_2.0
 
 # Create a branch with your feature
 $ git checkout -b my-feature
