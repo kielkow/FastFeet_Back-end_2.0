@@ -15,7 +15,16 @@ const ordersByCourierController = new OrdersByCourierController();
 
 ordersRouter.use(ensureAuthenticated);
 
-ordersRouter.get('/', ordersController.index);
+ordersRouter.get(
+  '/',
+  celebrate({
+    [Segments.QUERY]: {
+      page: Joi.number(),
+      product: Joi.string(),
+    },
+  }),
+  ordersController.index,
+);
 
 ordersRouter.get(
   '/:id',
