@@ -16,7 +16,16 @@ const recipientSignatureController = new RecipientSignatureController();
 
 recipientsRouter.use(ensureAuthenticated);
 
-recipientsRouter.get('/', recipientsController.index);
+recipientsRouter.get(
+  '/',
+  celebrate({
+    [Segments.QUERY]: {
+      page: Joi.number(),
+      name: Joi.string(),
+    },
+  }),
+  recipientsController.index,
+);
 
 recipientsRouter.get(
   '/:id',
