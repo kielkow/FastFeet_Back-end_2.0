@@ -11,7 +11,15 @@ const ordersProblemsController = new OrdersProblemsController();
 
 ordersProblemsRouter.use(ensureAuthenticated);
 
-ordersProblemsRouter.get('/', ordersProblemsController.index);
+ordersProblemsRouter.get(
+  '/',
+  celebrate({
+    [Segments.QUERY]: {
+      page: Joi.number(),
+    },
+  }),
+  ordersProblemsController.index,
+);
 
 ordersProblemsRouter.get(
   '/:id',
