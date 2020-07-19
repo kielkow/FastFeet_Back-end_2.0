@@ -16,7 +16,16 @@ const courierAvatarController = new CourierAvatarController();
 
 couriersRouter.use(ensureAuthenticated);
 
-couriersRouter.get('/', couriersController.index);
+couriersRouter.get(
+  '/',
+  celebrate({
+    [Segments.QUERY]: {
+      page: Joi.number(),
+      name: Joi.string(),
+    },
+  }),
+  couriersController.index,
+);
 
 couriersRouter.get(
   '/:id',
