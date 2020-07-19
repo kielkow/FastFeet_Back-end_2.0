@@ -98,6 +98,10 @@ ordersRouter.patch(
 ordersRouter.get(
   '/courier/:id',
   celebrate({
+    [Segments.QUERY]: {
+      page: Joi.number(),
+      end_date: Joi.boolean(),
+    },
     [Segments.PARAMS]: {
       id: Joi.string().required(),
     },
